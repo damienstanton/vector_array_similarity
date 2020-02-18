@@ -1,7 +1,24 @@
-# vector_array_similarity
+# Vector Array Similarity 
 
-At SignalFrame, we had a notion of a signal environment as a collection of wifi and bluetooth signals that were available in an area, including a notion of how frequently a signal was present in an area.  These environments might share signals, and we we easily able to define similarity between two environments.
+Often an object can be represented as an unordered set of vectors/embeddings.
+In particular we are interested in comparing objects that have multiple embeddings
+in the same vector space. In other words all vectors share the same dimensions.  
 
-Vector Array Similarity built on top of that notion.  Different entities could be pass through several environments, with different amounts of time spent in each environment, and we would say that the entities were similar if their environments were similar.
+These representations naturally arise in time-series analysis where the behaviour
+changes over time within the same vector space. E.g. a user in social network 
+creates different personas over time.
 
-However, several apparently obvious approaches to define similarity for entities in this way, ended up violating some core tenets of similarity.  Implementations of these approaches are included in similarity_test.py, with their failing tests included in SimilarityPropertiesTest.  The similarity function that we ultimately selected is in similarity.py.  Different rejected similarity functions from similarity_test.py can be substituted in at line 7 to expose which tests lead to its rejection.
+For example:
+```
+user_1 := [v11, v12, v13]
+user_2 := [v21, v22]
+```
+where _v_ denotes a vector that defines some behaviour in a given time window. 
+What is the similarity between the two users? Note that we do expect that each user
+may have different number of vectors due to different activity levels and amount of 
+time spent.
+ 
+This package implements a similarity function that takes into account how important 
+individual vectors are to a given user, and also accounts the different array lengths.
+In particular, absence of vectors is interpreted through the Closed-World Assumption
+as lack of activity. 
