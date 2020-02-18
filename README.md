@@ -25,5 +25,10 @@ window 5.
 
 This package implements an _opiniated_ similarity function that takes into account how important 
 individual vectors are to a given user, and also accounts for the different array lengths (i.e. 
-available time windows).In particular, absence of vectors is interpreted through the Closed-World 
-Assumption as lack of activity. 
+available time windows). In particular, absence of vectors is interpreted, through the Closed-World 
+Assumption, as lack of activity.
+
+This similarity function does not care about the time ordering of vectors, just their presence. Thus
+two users are highly similar if their vectors are similar independent of their time position. However,
+if user1 has one vector and it is highly similar to one of user2's vectors, and in addition user2 has
+additional vectors, then their similarity will be diminished. 
