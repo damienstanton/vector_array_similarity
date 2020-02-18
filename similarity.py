@@ -1,9 +1,6 @@
 import numpy as np
 
-def vector_array_similarity(sim_metrics):
-    return simsim(sim_metrics, 0.1)
-
-def simsim(sim_metrics, eps):
+def vector_array_similarity(sim_metrics, eps=0.1):
     score = double_weighted_using_min_weights_similarity_with_max(sim_metrics)
     decay = zeros_decay(sim_metrics.similarity_matrix, eps)
     return score * decay
@@ -32,6 +29,8 @@ def cosine_similarity(d1, d2):
     mag2 = sum([v**2 for v in d2.values()])**.5
     return dot / (mag1 * mag2)
 
+# Contains the similarity matrix between two vector arrays.
+# Arrays need not be of the same lenght
 class SimMetrics:
     def __init__(self, similarity_matrix, weights_1=None, weights_2=None):
         # The order of weights_1 shoudl match the row order,

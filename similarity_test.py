@@ -57,19 +57,19 @@ def harmonic_weighted_similarity(sim_metrics):
 class SimilarityPropertiesTest(unittest.TestCase):
     def test_self_similarity_is_one(self):
         # similarity_matrix if finding (A, B) ~ (A, B) and A ~ B == 0.0
-        discrete_clusters = SimMetrics([[1.0, 0.0], [0.0, 1.0]], [7, 3], [7, 3])
+        discrete_vectors = SimMetrics([[1.0, 0.0], [0.0, 1.0]], [7, 3], [7, 3])
         # similarity_matrix if finding (A, B) ~ (A, B) and A ~ B == 0.1
-        non_discrete_clusters = SimMetrics([[1.0, 0.1], [0.1, 1.0]], [7, 3], [7, 3])
-        self.assertEqual(similarity_for_test(discrete_clusters), 1.0)
-        self.assertEqual(similarity_for_test(non_discrete_clusters), 1.0)
+        non_discrete_vectors = SimMetrics([[1.0, 0.1], [0.1, 1.0]], [7, 3], [7, 3])
+        self.assertEqual(similarity_for_test(discrete_vectors), 1.0)
+        self.assertEqual(similarity_for_test(non_discrete_vectors), 1.0)
 
     def test_proportional_self_similarity_is_one(self):
         # want a high score comparing one week with three weeks (for example)
         # if comparing a super regular observer/signal to itself
-        discrete_clusters = SimMetrics([[1.0, 0.0], [0.0, 1.0]], [7, 3], [21, 9])
-        non_discrete_clusters = SimMetrics([[1.0, 0.1], [0.1, 1.0]], [7, 3], [21, 9])
-        self.assertEqual(similarity_for_test(discrete_clusters), 1.0)
-        self.assertEqual(similarity_for_test(non_discrete_clusters), 1.0)
+        discrete_vectors = SimMetrics([[1.0, 0.0], [0.0, 1.0]], [7, 3], [21, 9])
+        non_discrete_vectors = SimMetrics([[1.0, 0.1], [0.1, 1.0]], [7, 3], [21, 9])
+        self.assertEqual(similarity_for_test(discrete_vectors), 1.0)
+        self.assertEqual(similarity_for_test(non_discrete_vectors), 1.0)
 
     def test_similarity_is_symmetric(self):
         # Naive Avg(maxSim) won't satisfy symmetric requirement for similarity.
@@ -86,7 +86,7 @@ class SimilarityPropertiesTest(unittest.TestCase):
         m2 = SimMetrics([[0.2, 0.3, 0], [0.1, 0.0, 0]], [7, 3], [10, 2, 10])
         self.assertEqual(similarity_for_test(m2), similarity_for_test(m2.transpose()))
 
-    def test_extra_clusters_decrease_similarity(self):
+    def test_extra_vectors_decrease_similarity(self):
         # (A, B) ~ (A, B, C) < 1.0
         self.assertTrue(
             similarity_for_test(SimMetrics([[1, 0, 0], [0, 1, 0]], [7, 3], [7, 3, 5]))
@@ -100,7 +100,7 @@ class SimilarityPropertiesTest(unittest.TestCase):
     def test_similarity_of_extra_cluster_matters(self):
         # (A, B) ~ (A, B, C) should be greater if C is similar to A and/or B
         # challenge:  reconcile this with
-        # test_self_similarity_is_one for non_discrete_clusters
+        # test_self_similarity_is_one for non_discrete_vectors
         not_similar_C = SimMetrics([[1, 0, 0], [0, 1, 0]], [7, 3], [7, 3, 5])
         similar_C = SimMetrics([[1, 0, 0.3], [0, 1, 0.4]], [7, 3], [7, 3, 5])
         self.assertTrue(
@@ -141,7 +141,7 @@ class SimilarityPropertiesTest(unittest.TestCase):
         )
 
     def test_limited_effect_of_small_overlap(self):
-        # When most underlying observations from both arrays are in dissimilar clusters
+        # When most underlying observations from both arrays are in dissimilar vectors
         # having a brief "bump in the night" meeting shouldn't unduly boost their
         # similarity
         metrics = SimMetrics([[0.9, 0.01], [0.01, 0.9]], [999, 1], [1, 999])
@@ -160,7 +160,7 @@ class SimilarityPropertiesTest(unittest.TestCase):
             < similarity_for_test(SimMetrics([[0.9, 1]], [500], [999, 1]))
         )
 
-    def test_order_of_clusters_does_not_matter(self):
+    def test_order_of_vectors_does_not_matter(self):
         # A ~ a = 0.1
         # A ~ b = 0.2
         # A ~ c = 0.6
