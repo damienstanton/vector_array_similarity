@@ -30,10 +30,11 @@ def cosine_similarity(d1, d2):
     return dot / (mag1 * mag2)
 
 # Contains the similarity matrix between two vector arrays.
+# Weights can be assigned to each vector.
 # Arrays need not be of the same lenght
-class SimMetrics:
+class WeightedSimilarityMatrix:
     def __init__(self, similarity_matrix, weights_1=None, weights_2=None):
-        # The order of weights_1 shoudl match the row order,
+        # The order of weights_1 should match the row order,
         # and the order of weights_2 should match the column order.
         self.similarity_matrix = np.array(similarity_matrix)
         self.weights_1 = None if weights_1 is None else np.array(weights_1)
