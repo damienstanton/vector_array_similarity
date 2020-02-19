@@ -21,15 +21,14 @@ may have different number of vectors due to different activity levels and amount
 time spent. In this case, user2 has no activity during windows 3, 4, while user1 has no activity during
 window 5.
 
-## Given Solution
+## A Solution
 
 This package implements an _opiniated_ similarity function that takes into account how important 
 individual vectors are to a given user, and accounts for the different array lengths (i.e. 
-available time windows). In particular, absence of vectors is interpreted, through the Closed-World 
-Assumption, as lack of activity.
+available time windows). This similarity function does not care about the time ordering of vectors, just their presence. Thus
+two users are highly similar if their vectors are similar regardless of their time position. 
 
-This similarity function does not care about the time ordering of vectors, just their presence. Thus
-two users are highly similar if their vectors are similar regardless of their time position. However,
-if user1 has only one vector and it happens to be highly similar to one of user2's vectors, but user2 has
+This solution also defends against cases where arrays are of different lengths, yet most of the elements are similar.
+For example, if user1 has only one vector and it happens to be highly similar to one of user2's vectors, but user2 has
 additional vectors, then their similarity will be diminished. In other words, lack of activity influences
 the similarity measure.
