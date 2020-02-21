@@ -32,3 +32,24 @@ This solution also defends against cases where arrays are of different lengths, 
 For example, if user1 has only one vector and it happens to be highly similar to one of user2's vectors, but user2 has
 additional vectors, then their similarity will be diminished. In other words, lack of activity influences
 the similarity measure.
+
+### Algorithm Sketch
+
+```
+INPUT ::= {
+		matrix M: of pair-wise cosine distances between vectors
+		weights_a: vector of assigned weights to each vector in array a
+		weights_b: vecotr of assigned weights to each vector in array b 
+}
+
+1. build W such that w(i,j) = min(weights_a(i), weights_b(j))
+
+2. S <- M o W // Hadamard product
+
+3. score = MAX(SUM(i to n) max(S(i,.)), SUM(j to m) MAX(S(.,j)))
+
+4. decay = MAX(0norm(MAX(i to n) M(i,.)), 0norm(MAX(j to m) M(.,j)))
+4.1 	def fn 0norm(vector) ::= (len_non_zero(vector) + 1)/(len(vector) +1)
+
+5. return score * decay
+```
