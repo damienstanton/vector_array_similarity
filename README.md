@@ -53,3 +53,6 @@ INPUT ::= {
 
 5. return score * decay
 ```
+
+## Distribution
+This software is distrubted under the MIT license. It will not be actively developed further.
